@@ -1,350 +1,314 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Результаты ЕГЭ | Официальный портал</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <title>Система просмотра результатов экзаменов (демо)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
 
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #f0f2f5;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 24px 16px;
-        }
+    body {
+      margin: 0;
+      background-color: #f3f5f7;
+      color: #222;
+    }
 
-        .portal-card {
-            max-width: 1000px;
-            width: 100%;
-            background: #ffffff;
-            border-radius: 32px;
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            transition: all 0.2s ease;
-        }
+    header {
+      background: #1f4b8f;
+      color: #fff;
+      padding: 16px 24px;
+      border-bottom: 4px solid #d32f2f;
+    }
 
-        .header {
-            background: linear-gradient(135deg, #1a3e6f 0%, #0e2a4a 100%);
-            padding: 28px 32px 24px 32px;
-            color: white;
-        }
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
 
-        .badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(4px);
-            padding: 6px 14px;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            margin-bottom: 18px;
-        }
+    header p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      opacity: 0.9;
+    }
 
-        h1 {
-            font-size: 1.9rem;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            margin-bottom: 10px;
-        }
+    .container {
+      max-width: 980px;
+      margin: 24px auto 40px;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 24px 28px 28px;
+    }
 
-        .subhead {
-            font-size: 1rem;
-            opacity: 0.85;
-            border-left: 3px solid #ffcd3c;
-            padding-left: 14px;
-            margin-top: 6px;
-        }
+    .section-title {
+      font-size: 18px;
+      margin: 0 0 16px;
+      color: #1f4b8f;
+      border-bottom: 1px solid #dde3eb;
+      padding-bottom: 6px;
+    }
 
-        .participant-section {
-            background: #f8fafd;
-            padding: 20px 32px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 12px;
-        }
+    form {
+      margin-bottom: 24px;
+    }
 
-        .full-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0a2540;
-            background: #ffffff;
-            padding: 6px 18px;
-            border-radius: 60px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-            display: inline-block;
-        }
+    .form-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
 
-        .info-note {
-            font-size: 0.85rem;
-            color: #2c6e9e;
-            background: #e9f0f9;
-            padding: 6px 14px;
-            border-radius: 30px;
-        }
+    .form-group {
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
 
-        .results-grid {
-            padding: 32px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-        }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #555;
+    }
 
-        .subject-card {
-            background: white;
-            border-radius: 28px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #eef2f8;
-            overflow: hidden;
-        }
+    input, select {
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 14px;
+      border: 1px solid #c3cad5;
+      border-radius: 3px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      background-color: #fbfcfe;
+    }
 
-        .subject-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 28px -12px rgba(0, 0, 0, 0.12);
-        }
+    input:focus, select:focus {
+      border-color: #1f4b8f;
+      box-shadow: 0 0 0 2px rgba(31, 75, 143, 0.15);
+      background-color: #fff;
+    }
 
-        .card-header {
-            padding: 20px 20px 12px 20px;
-            border-bottom: 2px solid #eff3f8;
-        }
+    .button-row {
+      margin-top: 8px;
+    }
 
-        .subject-name {
-            font-size: 1.55rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    button {
+      padding: 8px 18px;
+      font-size: 14px;
+      border-radius: 3px;
+      border: none;
+      cursor: pointer;
+      background: #1f4b8f;
+      color: #fff;
+      font-weight: 500;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
 
-        .subject-icon {
-            font-size: 1.7rem;
-        }
+    button:hover {
+      background: #2259aa;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
 
-        .card-body {
-            padding: 20px;
-            text-align: center;
-        }
+    button:active {
+      background: #1a447f;
+      box-shadow: none;
+    }
 
-        .score-big {
-            font-size: 3.2rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            color: #1e466e;
-            line-height: 1;
-        }
+    .hint {
+      font-size: 12px;
+      color: #777;
+      margin-top: 4px;
+    }
 
-        .score-unit {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #5e7a99;
-            margin-left: 4px;
-        }
+    .results-block {
+      margin-top: 16px;
+      border-top: 1px solid #dde3eb;
+      padding-top: 16px;
+      display: none;
+    }
 
-        .mark-pass {
-            background: #e6f7ec;
-            color: #1f8b4c;
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
-        }
+    .candidate-info {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-        .extra-detail {
-            margin-top: 16px;
-            font-size: 0.85rem;
-            color: #527a9b;
-            border-top: 1px dashed #e2edf7;
-            padding-top: 14px;
-        }
+    .candidate-info span.label {
+      color: #555;
+    }
 
-        .no-score {
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #a0b8d0;
-            background: #f4f9fe;
-            display: inline-block;
-            padding: 10px 24px;
-            border-radius: 40px;
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 14px;
+    }
 
-        .card-rus .card-header {
-            border-bottom-color: #3b82f6;
-        }
-        .card-math .card-header {
-            border-bottom-color: #f59e0b;
-        }
-        .card-inf .card-header {
-            border-bottom-color: #8b5cf6;
-        }
-        .card-essay .card-header {
-            border-bottom-color: #10b981;
-        }
+    th, td {
+      border: 1px solid #d0d6e0;
+      padding: 6px 8px;
+      text-align: left;
+    }
 
-        .footer {
-            background: #f8fafd;
-            text-align: center;
-            padding: 18px 24px;
-            font-size: 0.75rem;
-            color: #5b7a9a;
-            border-top: 1px solid #e2edf2;
-        }
+    th {
+      background: #f1f4f9;
+      font-weight: 600;
+      font-size: 13px;
+      color: #333;
+    }
 
-        @media (max-width: 680px) {
-            .header {
-                padding: 20px;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .participant-section {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 16px 20px;
-            }
-            .full-name {
-                font-size: 1.2rem;
-            }
-            .results-grid {
-                padding: 24px 20px;
-                gap: 18px;
-            }
-            .subject-name {
-                font-size: 1.3rem;
-            }
-        }
+    tbody tr:nth-child(even) {
+      background: #fafbfe;
+    }
 
-        .print-btn {
-            background: none;
-            border: none;
-            font-size: 0.8rem;
-            color: #2c6e9e;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #ffffffd0;
-            padding: 5px 12px;
-            border-radius: 40px;
-            transition: 0.1s;
-        }
-        .print-btn:hover {
-            background: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-    </style>
+    .score-100 {
+      font-weight: 600;
+      color: #1a7d2f;
+    }
+
+    .status-ok {
+      color: #1a7d2f;
+      font-weight: 500;
+    }
+
+    .footnote {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #888;
+      line-height: 1.4;
+    }
+
+    .footnote strong {
+      color: #c62828;
+    }
+
+    @media (max-width: 640px) {
+      header, .container {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
+<header>
+  <h1>Система просмотра результатов экзаменов</h1>
+  <p>Информационный сервис для ознакомления с результатами (демонстрационная версия)</p>
+</header>
 
-<div class="portal-card">
-    <div class="header">
-        <div class="badge">Официальный информационный портал ЕГЭ 2026</div>
-        <h1>Результаты единого государственного экзамена</h1>
-        <div class="subhead">Сервис ознакомления с результатами ГИА</div>
+<div class="container">
+  <h2 class="section-title">Поиск результатов</h2>
+  <form id="searchForm" onsubmit="showResults(event)">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="lastName">Фамилия</label>
+        <input id="lastName" type="text" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">Имя</label>
+        <input id="firstName" type="text" required>
+      </div>
+      <div class="form-group">
+        <label for="middleName">Отчество</label>
+        <input id="middleName" type="text">
+      </div>
     </div>
 
-    <div class="participant-section">
-        <div class="full-name">
-            🧑‍🎓 Черных Даниил Витальевич
-        </div>
-        <div class="info-note">
-            📄 Номер документа: 954184  |  🌍 Регион: 61 (Ростовская область)
-        </div>
-        <button class="print-btn" onclick="window.print();">🖨️ Распечатать результаты</button>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="region">Регион</label>
+        <select id="region" required>
+          <option value="">Выберите регион</option>
+          <option value="61">61 – Ростовская область</option>
+          <option value="77">77 – г. Москва</option>
+          <option value="78">78 – г. Санкт‑Петербург</option>
+          <option value="23">23 – Краснодарский край</option>
+          <option value="52">52 – Нижегородская область</option>
+          <option value="00">Другой регион</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="docNumber">Номер документа (без серии)</label>
+        <input id="docNumber" type="text" required>
+        <div class="hint">Укажите номер паспорта или иного документа, удостоверяющего личность.</div>
+      </div>
     </div>
 
-    <div class="results-grid">
-        <!-- Русский язык, теперь 100 баллов -->
-        <div class="subject-card card-rus">
-            <div class="card-header">
-                <div class="subject-name">
-                    <span class="subject-icon">📖</span> Русский язык
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="score-big">
-                    100<span class="score-unit">тестовых баллов</span>
-                </div>
-                <div class="extra-detail">
-                    ✅ Минимальный порог: 36 баллов<br>
-                    Первичный балл: 50 / 54
-                </div>
-            </div>
-        </div>
-
-        <!-- Математика (профиль), теперь 100 баллов -->
-        <div class="subject-card card-math">
-            <div class="card-header">
-                <div class="subject-name">
-                    <span class="subject-icon">📐</span> Математика (профильная)
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="score-big">
-                    100<span class="score-unit">тестовых баллов</span>
-                </div>
-                <div class="extra-detail">
-                    📊 Минимальный порог: 39 баллов<br>
-                    Первичный балл: 32 / 32 (максимум)
-                </div>
-            </div>
-        </div>
-
-        <!-- Информатика: баллы пока не указаны -->
-        <div class="subject-card card-inf">
-            <div class="card-header">
-                <div class="subject-name">
-                    <span class="subject-icon">💻</span> Информатика и ИКТ
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="no-score">
-                    ⏳ Баллы не присвоены
-                </div>
-                <div class="extra-detail">
-                    Результат ожидается.<br>
-                    Статус: обработка бланков
-                </div>
-            </div>
-        </div>
-
-        <!-- Итоговое сочинение – зачёт -->
-        <div class="subject-card card-essay">
-            <div class="card-header">
-                <div class="subject-name">
-                    <span class="subject-icon">✍️</span> Итоговое сочинение
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="mark-pass">
-                    ЗАЧЁТ
-                </div>
-                <div class="extra-detail">
-                    🎓 Допуск к ЕГЭ подтверждён<br>
-                    Результат действителен бессрочно
-                </div>
-            </div>
-        </div>
+    <div class="button-row">
+      <button type="submit">Показать результаты</button>
     </div>
+  </form>
 
-    <div class="footer">
-        © 2001–2026 Федеральная служба по надзору в сфере образования и науки (Рособрнадзор)<br>
-        Информация предоставлена из Федеральной информационной системы — результаты являются официальными.
+  <div id="resultsBlock" class="results-block">
+    <div class="candidate-info" id="candidateInfo"></div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>Предмет</th>
+        <th>Первичный балл</th>
+        <th>Тестовый балл</th>
+        <th>Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Итоговое сочинение (изложение)</td>
+        <td class="score-100">100</td>
+        <td class="score-100">100</td>
+        <td class="status-ok">зачёт</td>
+      </tr>
+      <tr>
+        <td>Русский язык</td>
+        <td class="score-100">100</td>
+        <td class="score-100">100</td>
+        <td class="status-ok">результат утверждён</td>
+      </tr>
+      <tr>
+        <td>Математика (профильный уровень)</td>
+        <td class="score-100">100</td>
+        <td class="score-100">100</td>
+        <td class="status-ok">результат утверждён</td>
+      </tr>
+      <tr>
+        <td>Информатика и ИКТ</td>
+        <td class="score-100">100</td>
+        <td class="score-100">100</td>
+        <td class="status-ok">результат утверждён</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="footnote">
+      <strong>Внимание:</strong> данная страница является демонстрационным макетом и не является официальным источником информации о результатах экзаменов.
+      Любые данные, отображаемые на странице, не обладают юридической силой.
     </div>
+  </div>
 </div>
 
+<script>
+  function showResults(event) {
+    event.preventDefault();
+
+    const lastName = document.getElementById('lastName').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const middleName = document.getElementById('middleName').value.trim();
+    const region = document.getElementById('region').value;
+    const docNumber = document.getElementById('docNumber').value.trim();
+
+    let regionText = document.getElementById('region')
+      .options[document.getElementById('region').selectedIndex].text;
+
+    const info = document.getElementById('candidateInfo');
+    info.textContent =
+      `ФИО: ${lastName} ${firstName} ${middleName} · Регион: ${regionText} · Документ: ${docNumber}`;
+
+    document.getElementById('resultsBlock').style.display = 'block';
+    document.getElementById('resultsBlock').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
 </body>
 </html>
